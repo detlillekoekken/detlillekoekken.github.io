@@ -13,21 +13,22 @@ header:
 
 Velkommen til Det Lille Køkken! Her er min allerførste opskrift, som er en favorit i hverdagen.
 
-{% recipe %}
+
 title: Klassisk Tomatsuppe
 description: En nem og hurtig suppe til hverdagen, der smager af solskin.
-ingredients:
+### Ingredienser:
   - 1 kg modne tomater
   - 2 fed hvidløg
   - 1 løg, hakket
   - 5 dl grøntsagsbouillon
   - En håndfuld frisk basilikum
   - Salt og peber
-directions:
+
+### Fremgangsmåde:
   - Hak tomater, løg og hvidløg groft.
   - Svits løg og hvidløg i en gryde med lidt olie.
   - Tilsæt tomater og bouillon, og lad det simre i ca. 20 minutter.
   - Blend suppen jævn og smag til med salt, peber og basilikum.
-{% endrecipe %}
 
-Håber i nyder den!
+
+Håber I nyder den!
