@@ -1,7 +1,7 @@
 title: "Det Lille Køkken"
 locale: "da-DK"
 description: "Min samling af opskrifter"
-url: "https://detlillekoekken.github.io" # Vi bruger denne indtil dit domæne er klar
+url: "https://detlillekøkken.dk"
 
 # Tema - Vi fjerner @4.24.4 for at undgå 404 fejlen
 remote_theme: "mmistakes/minimal-mistakes"
