@@ -1,23 +1,20 @@
-# Side indstillinger
 title: "Det Lille Køkken"
 locale: "da-DK"
-description: "Open Source Madviden"
-url: "https://detlillekøkken.dk" 
+description: "Min samling af opskrifter"
+url: "https://detlillekoekken.github.io" # Vi bruger denne indtil dit domæne er klar
 
-# Tema indstillinger
-remote_theme: "mmistakes/minimal-mistakes@4.24.4"
-minimal_mistakes_skin: "default" # Jeg vil ændre farvetema senere (f.eks. 'air', 'contrast', 'mint')
+# Tema - Vi fjerner @4.24.4 for at undgå 404 fejlen
+remote_theme: "mmistakes/minimal-mistakes"
+minimal_mistakes_skin: "default"
 
-# Plugins
+# Plugins - Vi holder os til dem, GitHub Pages officielt støtter i første omgang
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
-  - jekyll-recipe
+  - jekyll-seo-tag
+  - jekyll-sitemap
 
-# Gør det muligt at bruge detlillekøkken.dk korrekt
-domain: "detlillekøkken.dk"
-
-# Standard indstillinger for indlæg
+# Standard indstillinger
 defaults:
   - scope:
       path: ""
@@ -25,7 +22,3 @@ defaults:
     values:
       layout: "single"
       author_profile: true
-      read_time: true
-      comments: false
-      share: true
-      related: true
