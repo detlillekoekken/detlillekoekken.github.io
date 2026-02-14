@@ -32,7 +32,7 @@ defaults:
       read_time: true
       share: true
       comments: false
-
+/*
 author:
   name: "Janus"
   bio: "Madentusiast"
@@ -42,4 +42,4 @@ author:
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       url: "https://instagram.com/janushoi"
-
+*/
