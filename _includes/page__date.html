@@ -1,6 +1,30 @@
-{% assign date_format = site.date_format | default: "%-d %B %Y" %}
 {% if page.last_modified_at %}
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].date_label | default: "Updated:" }}</strong> <time class="dt-published" datetime="{{ page.last_modified_at | date: "%Y-%m-%d" }}">{{ page.last_modified_at | date: date_format }}</time></p>
+  {% assign date_to_show = page.last_modified_at %}
 {% elsif page.date %}
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].date_label | default: "Updated:" }}</strong> <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: date_format }}</time></p>
+  {% assign date_to_show = page.date %}
+{% endif %}
+
+{% if date_to_show %}
+  <p class="page__date">
+    <strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].date_label | default: "Opdateret:" }}</strong> 
+    <time class="dt-published" datetime="{{ date_to_show | date_to_xmlschema }}">
+      {{ date_to_show | date: "%-d." }}
+      {% assign m = date_to_show | date: "%-m" %}
+      {% case m %}
+        {% when '1' %}januar
+        {% when '2' %}februar
+        {% when '3' %}marts
+        {% when '4' %}april
+        {% when '5' %}maj
+        {% when '6' %}juni
+        {% when '7' %}juli
+        {% when '8' %}august
+        {% when '9' %}september
+        {% when '10' %}oktober
+        {% when '11' %}november
+        {% when '12' %}december
+      {% endcase %}
+      {{ date_to_show | date: "%Y" }}
+    </time>
+  </p>
 {% endif %}
