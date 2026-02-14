@@ -32,4 +32,4 @@ description: En nem og hurtig suppe til hverdagen, der smager af solskin.
   - Blend suppen jævn og smag til med salt, peber og basilikum.
 
 
-Håber I nyder den!
+Den kommer til at smage godt!
