@@ -33,12 +33,6 @@ defaults:
       read_time: true
       share: false
       comments: false
-
-# footer:
-#   links:
-#     - label: "Instagram"
-#       icon: "fab fa-fw fa-instagram"
-#       url: "https://instagram.com/janushoi"
       
 # author:
   name: "Janus"
