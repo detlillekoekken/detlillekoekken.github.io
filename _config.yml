@@ -34,13 +34,3 @@ defaults:
       share: false
       comments: false
       
-# author:
-  name: "Janus"
-  bio: "Madentusiast"
-  avatar: "/assets/images/mig.jpg" # Du kan uploade et billede senere
-  location: "Danmark"
-  links:
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/janushoi"
-
