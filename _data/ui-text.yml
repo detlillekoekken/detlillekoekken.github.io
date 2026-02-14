@@ -1,11 +1,15 @@
 da-DK: &da-DK
-  page            : "Side"
-  recent_posts    : "Nyeste opskrifter"
-  minute_read     : "minutters læsning"
-  share_on        : "Del på"
-  next            : "Næste"
-  previous        : "Forrige"
-  updated         : "Opdateret:"
+  page                   : "Side"
+  recent_posts           : "Nyeste opskrifter"
+  minute_read            : "minutters læsning"
+  share_on               : "Del på"
+  next                   : "Næste"
+  previous               : "Forrige"
+  updated                : "Opdateret:"
+  less_than              : "Mindre end"
+  date_label             : "Opdateret"
+  pagination_previous    : "Forrige"
+  pagination_next        : "Næste"
 
 da:
   <<: *da-DK
