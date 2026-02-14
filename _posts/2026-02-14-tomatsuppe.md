@@ -9,7 +9,6 @@ tags:
   - vegetarisk
 header:
   teaser: /assets/images/tomatsuppe-teaser.jpg
-author_profile: false
 ---
 
 Velkommen til Det Lille Køkken! Her er min allerførste opskrift, som er en favorit i hverdagen.
