@@ -1,0 +1,13 @@
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    {% if site.footer.links %}
+      {% for link in site.footer.links %}
+        <li><a href="{{ link.url }}" rel="nofollow noopener noreferrer"><i class="{{ link.icon | default: 'fas fa-link' }}" aria-hidden="true"></i> {{ link.label }}</a></li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+</div>
+
+<div class="page__footer-copyright">
+  &copy; {{ "now" | date: "%Y" }} {{ site.title | default: site.name }}. Opskrifter til fri afbenyttelse.
+</div>
