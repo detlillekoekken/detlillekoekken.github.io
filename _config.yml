@@ -1,6 +1,7 @@
 title: "Det Lille Køkken"
-# Vi fjerner # fra titlen her, da temaet selv gør den stor og flot
 locale: "da-DK"
+timezone: "Europe/Copenhagen"
+words_per_minute: 200
 description: "Min samling af opskrifter"
 url: "https://detlillekøkken.dk"
 baseurl: "" # Lad denne stå tom
