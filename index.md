@@ -7,4 +7,6 @@ header:
 //  caption: "Velkommen til mit køkken"
 excerpt: "Min samling af opskrifter - Open Source madglæde."
 ---
+author_profile: false
+
 Herunder findes de nyeste opskrifter.
