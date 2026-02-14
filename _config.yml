@@ -32,7 +32,7 @@ defaults:
       read_time: true
       share: true
       comments: false
-author:
+/* author:
   name: "Janus"
   bio: "Madentusiast"
   avatar: "/assets/images/mig.jpg" # Du kan uploade et billede senere
@@ -41,3 +41,4 @@ author:
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       url: "https://instagram.com/janushoi"
+*/
