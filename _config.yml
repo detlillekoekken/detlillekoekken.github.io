@@ -34,5 +34,7 @@ defaults:
       comments: false
 
 
-include: ["_pages"]
-      
+# Reading Files
+include:
+  - .htaccess
+  - _pages
