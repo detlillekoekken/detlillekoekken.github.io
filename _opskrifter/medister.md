@@ -4,7 +4,7 @@ prep_time: "10 min"
 cook_time: "20 min"
 yield: "4 personer"
 svaerhedsgrad: "nem"
-metode: "pande"
+# metode: "pande"
 kategori: "hovedret"
 indhold: ["Svinekød", "kalvekød"]
 # recipe_image: "/assets/images/frikadeller.jpg"
