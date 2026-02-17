@@ -1,0 +1,25 @@
+---
+# Dette sikrer, at Jekyll behandler filen korrekt
+---
+
+@import "minimal-mistakes";
+
+/* Vi rammer alle tænkelige logo-klasser i Minimal Mistakes */
+.masthead__menu-logo img,
+.site-logo img,
+.logo img,
+.site-title img {
+  height: 4rem !important; /* Juster dette tal (f.eks. 3rem, 4rem, 5rem) */
+  max-height: none !important;
+  width: auto !important;
+}
+
+/* Sikrer at nav-baren giver plads til det større logo */
+.masthead__menu-logo {
+  margin-right: 1em;
+}
+
+.site-title {
+  display: flex;
+  align-items: center;
+}
