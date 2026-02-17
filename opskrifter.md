@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Find en opskrift"
+title: "Opskrifter"
 permalink: /opskrifter/
 ---
 
