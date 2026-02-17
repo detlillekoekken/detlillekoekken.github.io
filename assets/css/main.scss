@@ -1,0 +1,18 @@
+---
+# Dette sikrer, at Jekyll behandler filen korrekt
+---
+
+@import "minimal-mistakes";
+
+/* Gør logoet 20% større på alle sider */
+.site-logo img, .logo img {
+  max-height: 5rem !important; /* Justeret op fra standard */
+  width: auto !important;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Justering af overskriften ved siden af logoet, så det flugter */
+.site-title {
+  display: flex;
+  align-items: center;
+}
