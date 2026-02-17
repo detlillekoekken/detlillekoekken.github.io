@@ -11,7 +11,7 @@ permalink: /opskrifter/
 <div id="filter-container" class="filter-box">
   <div class="filter-group-wrapper">
     
-       <div class="filter-group">
+    <div class="filter-group">
       <h4>Kategori</h4>
       <div class="filter-options">
         <span class="filter-pill" data-type="kategori" onclick="togglePill(this)">Forret</span>
@@ -66,10 +66,10 @@ permalink: /opskrifter/
 <div class="recipe-grid" id="recipe-list">
   {% for opskrift in sorterede_opskrifter %}
     <div class="recipe-item" 
-         data-kategori="{{ opskrift.kategori | downcase | default: '' }}" 
-         data-metode="{{ opskrift.metode | downcase | default: '' }}" 
-         data-indhold="{{ opskrift.indhold | downcase | default: '' }}"
-         data-sværhedsgrad="{{ opskrift.sværhedsgrad | downcase | default: '' }}">
+         data-kategori="{{ opskrift.kategori | strip | downcase }}" 
+         data-metode="{{ opskrift.metode | strip | downcase }}" 
+         data-indhold="{{ opskrift.indhold | strip | downcase }}"
+         data-sværhedsgrad="{{ opskrift.sværhedsgrad | strip | downcase }}">
       <a href="{{ opskrift.url | relative_url }}" class="recipe-teaser">
         <div class="recipe-img-container">
           {% if opskrift.recipe_image %}
@@ -81,8 +81,7 @@ permalink: /opskrifter/
         <div class="recipe-info">
           <h3>{{ opskrift.title }}</h3>
           <p class="recipe-tags">
-            {{ opskrift.kategori | capitalize }} 
-            {% if opskrift.sværhedsgrad %} • {{ opskrift.sværhedsgrad | capitalize }}{% endif %}
+            {{ opskrift.kategori }} {% if opskrift.sværhedsgrad %} • {{ opskrift.sværhedsgrad }}{% endif %}
           </p>
         </div>
       </a>
@@ -114,7 +113,7 @@ function filterRecipes() {
   };
 
   activePills.forEach(pill => {
-    // Vi gemmer alt som små bogstaver for at undgå fejl
+    // Normaliserer teksten på knappen til sammenligning
     filters[pill.dataset.type].push(pill.textContent.trim().toLowerCase());
   });
 
@@ -122,10 +121,11 @@ function filterRecipes() {
   let visibleCount = 0;
 
   recipes.forEach(recipe => {
-    const rKategori = recipe.getAttribute('data-kategori');
-    const rMetode = recipe.getAttribute('data-metode');
-    const rIndhold = recipe.getAttribute('data-indhold');
-    const rSvær = recipe.getAttribute('data-sværhedsgrad');
+    // Vi henter data-attributterne som vi har pre-set til downcase i Liquid
+    const rKategori = recipe.getAttribute('data-kategori') || "";
+    const rMetode = recipe.getAttribute('data-metode') || "";
+    const rIndhold = recipe.getAttribute('data-indhold') || "";
+    const rSvær = recipe.getAttribute('data-sværhedsgrad') || "";
 
     const matchKategori = filters.kategori.length === 0 || filters.kategori.includes(rKategori);
     const matchMetode = filters.metode.length === 0 || filters.metode.includes(rMetode);
@@ -152,47 +152,12 @@ function resetFilters() {
 <style>
   .filter-toggle-btn {
     background: #333; color: white; padding: 12px 24px; border: none; border-radius: 30px;
-    cursor: pointer; font-size: 1em; margin-bottom: 20px; transition: background 0.3s;
+    cursor: pointer; font-size: 1em; margin-bottom: 20px;
   }
-  .filter-toggle-btn:hover { background: #555; }
-  
   .filter-box {
     display: none; background: #fff; padding: 25px; border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid #eee; margin-bottom: 30px;
   }
   .filter-box.active { display: block; }
-  
-  .filter-group-wrapper {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px;
-  }
-  .filter-group h4 {
-    margin: 0 0 12px 0; font-size: 0.8em; text-transform: uppercase; letter-spacing: 1.2px; color: #999;
-  }
-  .filter-options { display: flex; flex-wrap: wrap; gap: 8px; }
-
-  .filter-pill {
-    background: #f0f0f0; border: 1px solid transparent; padding: 8px 16px; border-radius: 20px;
-    font-size: 0.85em; cursor: pointer; transition: all 0.2s ease; color: #444;
-  }
-  .filter-pill:hover { background: #e0e0e0; }
-  .filter-pill.active {
-    background: #333; color: white; font-weight: bold; transform: scale(1.05);
-  }
-
-  .reset-link {
-    background: none; border: none; color: #e74c3c; text-decoration: underline;
-    cursor: pointer; margin-top: 25px; display: block; padding: 0;
-  }
-
-  .recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; }
-  .recipe-teaser {
-    display: flex; flex-direction: column; height: 100%; border-radius: 12px;
-    overflow: hidden; text-decoration: none; color: inherit; border: 1px solid #eee; transition: all 0.3s;
-  }
-  .recipe-teaser:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
-  .recipe-img-container { width: 100%; height: 200px; overflow: hidden; }
-  .recipe-img-container img { width: 100%; height: 100%; object-fit: cover; }
-  .recipe-info { padding: 20px; background: white; flex-grow: 1; }
-  .recipe-info h3 { margin: 0; font-size: 1.2em; color: #222; }
-  .recipe-tags { font-size: 0.85em; color: #777; margin-top: 8px; }
-</style>
+  .filter-group-wrapper { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; }
+  .filter-group h4 { margin: 0 0 12px 0; font-size: 0.8em;
