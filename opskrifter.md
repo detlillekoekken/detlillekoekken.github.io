@@ -11,49 +11,34 @@ permalink: /opskrifter/
 <div id="filter-container" class="filter-box">
   <div class="filter-group-wrapper">
     
-    <div class="filter-group">
-      <h4>Kategori</h4>
-      <div class="filter-options">
-        <span class="filter-pill" data-type="kategori" onclick="togglePill(this)">Forret</span>
-        <span class="filter-pill" data-type="kategori" onclick="togglePill(this)">Hovedret</span>
-        <span class="filter-pill" data-type="kategori" onclick="togglePill(this)">Dessert</span>
-        <span class="filter-pill" data-type="kategori" onclick="togglePill(this)">Suppe</span>
-        <span class="filter-pill" data-type="kategori" onclick="togglePill(this)">Snack</span>
+    {% comment %} Vi genererer listerne dynamisk fra site.opskrifter {% endcomment %}
+    {% assign typer = "kategori,metode,indhold,svaerhedsgrad" | split: "," %}
+    
+    {% for type in typer %}
+      <div class="filter-group">
+        <h4>{% if type == "svaerhedsgrad" %}Sværhedsgrad{% else %}{{ type | capitalize }}{% endif %}</h4>
+        <div class="filter-options">
+          {% assign all_values = "" | split: "" %}
+          
+          {% for opskrift in site.opskrifter %}
+            {% assign val = opskrift[type] %}
+            {% if val %}
+              {% if val.first %} {% comment %} Tjekker om det er en liste {% endcomment %}
+                {% for item in val %}{% assign all_values = all_values | push: item %}{% endfor %}
+              {% else %}
+                {% assign all_values = all_values | push: val %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          
+          {% assign unique_values = all_values | uniq | sort %}
+          
+          {% for value in unique_values %}
+            <span class="filter-pill" data-type="{{ type }}" onclick="togglePill(this)">{{ value }}</span>
+          {% endfor %}
+        </div>
       </div>
-    </div>
-
-    <div class="filter-group">
-      <h4>Metode</h4>
-      <div class="filter-options">
-        <span class="filter-pill" data-type="metode" onclick="togglePill(this)">Sous Vide</span>
-        <span class="filter-pill" data-type="metode" onclick="togglePill(this)">Grill</span>
-        <span class="filter-pill" data-type="metode" onclick="togglePill(this)">Røgning</span>
-        <span class="filter-pill" data-type="metode" onclick="togglePill(this)">Trykkoger</span>
-        <span class="filter-pill" data-type="metode" onclick="togglePill(this)">Slow Cooker</span>
-        <span class="filter-pill" data-type="metode" onclick="togglePill(this)">Airfryer</span>
-        <span class="filter-pill" data-type="metode" onclick="togglePill(this)">Ovn</span>
-      </div>
-    </div>
-
-    <div class="filter-group">
-      <h4>Indhold</h4>
-      <div class="filter-options">
-        <span class="filter-pill" data-type="indhold" onclick="togglePill(this)">Svinekød</span>
-        <span class="filter-pill" data-type="indhold" onclick="togglePill(this)">Oksekød</span>
-        <span class="filter-pill" data-type="indhold" onclick="togglePill(this)">Vegansk</span>
-        <span class="filter-pill" data-type="indhold" onclick="togglePill(this)">Fisk</span>
-        <span class="filter-pill" data-type="indhold" onclick="togglePill(this)">Vegetarisk</span>
-      </div>
-    </div>
-
-    <div class="filter-group">
-      <h4>Sværhedsgrad</h4>
-      <div class="filter-options">
-        <span class="filter-pill" data-type="sværhedsgrad" onclick="togglePill(this)">Nem</span>
-        <span class="filter-pill" data-type="sværhedsgrad" onclick="togglePill(this)">Middel</span>
-        <span class="filter-pill" data-type="sværhedsgrad" onclick="togglePill(this)">Svær</span>
-      </div>
-    </div>
+    {% endfor %}
 
   </div>
   <button class="reset-link" onclick="resetFilters()">Nulstil alle filtre</button>
@@ -65,7 +50,6 @@ permalink: /opskrifter/
 
 <div class="recipe-grid" id="recipe-list">
   {% for opskrift in sorterede_opskrifter %}
-    {% comment %} Vi laver listerne om til små bogstaver og adskiller dem med komma {% endcomment %}
     {% capture kat_list %}{{ opskrift.kategori | join: ',' | downcase }}{% endcapture %}
     {% capture met_list %}{{ opskrift.metode | join: ',' | downcase }}{% endcapture %}
     {% capture ind_list %}{{ opskrift.indhold | join: ',' | downcase }}{% endcapture %}
@@ -75,7 +59,7 @@ permalink: /opskrifter/
          data-kategori="{{ kat_list }}" 
          data-metode="{{ met_list }}" 
          data-indhold="{{ ind_list }}"
-         data-sværhedsgrad="{{ s_grad }}">
+         data-svaerhedsgrad="{{ s_grad }}">
       <a href="{{ opskrift.url | relative_url }}" class="recipe-teaser">
         <div class="recipe-img-container">
           {% if opskrift.recipe_image %}
@@ -108,7 +92,7 @@ function togglePill(element) {
 
 function filterRecipes() {
   const activePills = document.querySelectorAll('.filter-pill.active');
-  const filters = { kategori: [], metode: [], indhold: [], sværhedsgrad: [] };
+  const filters = { kategori: [], metode: [], indhold: [], svaerhedsgrad: [] };
 
   activePills.forEach(pill => {
     filters[pill.dataset.type].push(pill.textContent.trim().toLowerCase());
@@ -118,19 +102,17 @@ function filterRecipes() {
   let visibleCount = 0;
 
   recipes.forEach(recipe => {
-    // Vi splitter de komma-separerede lister fra data-attributterne til arrays
     const rKategori = (recipe.getAttribute('data-kategori') || "").split(',');
     const rMetode = (recipe.getAttribute('data-metode') || "").split(',');
     const rIndhold = (recipe.getAttribute('data-indhold') || "").split(',');
-    const rSvær = recipe.getAttribute('data-sværhedsgrad') || "";
+    const rSvaer = recipe.getAttribute('data-svaerhedsgrad') || "";
 
-    // Tjekker om der er et overlap mellem valgte filtre og opskriftens tags
     const matchKategori = filters.kategori.length === 0 || filters.kategori.some(f => rKategori.includes(f));
     const matchMetode = filters.metode.length === 0 || filters.metode.some(f => rMetode.includes(f));
     const matchIndhold = filters.indhold.length === 0 || filters.indhold.some(f => rIndhold.includes(f));
-    const matchSvær = filters.sværhedsgrad.length === 0 || filters.sværhedsgrad.includes(rSvær);
+    const matchSvaer = filters.svaerhedsgrad.length === 0 || filters.svaerhedsgrad.includes(rSvaer);
 
-    if (matchKategori && matchMetode && matchIndhold && matchSvær) {
+    if (matchKategori && matchMetode && matchIndhold && matchSvaer) {
       recipe.style.display = 'block';
       visibleCount++;
     } else {
