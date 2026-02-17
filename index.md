@@ -6,17 +6,18 @@ header:
   overlay_filter: 0.5
   overlay_excerpt: "- Open Source Madviden"
 ---
+
 <style>
-  /* Skjul hele topbjælken og fjern dens fylde kun på forsiden */
+  /* Skjul topbjælken kun på forsiden */
   .masthead {
     display: none !important;
   }
-  /* Sørg for at hovedindholdet rykker helt op */
+  /* Fjern det hvide mellemrum i toppen */
   .initial-content {
     margin-top: 0 !important;
   }
 
-
+  /* Grid-system til opskrifter */
   .recipe-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -29,6 +30,11 @@ header:
     overflow: hidden;
     text-decoration: none;
     color: inherit;
+    transition: transform 0.2s;
+  }
+  .recipe-teaser:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
   .recipe-teaser img { 
     width: 100%;
@@ -43,6 +49,7 @@ header:
 </style>
 
 ## Seneste opskrifter
+
 <div class="recipe-grid">
   {% for opskrift in site.opskrifter limit: 6 %}
     <a href="{{ opskrift.url | relative_url }}" class="recipe-teaser">
