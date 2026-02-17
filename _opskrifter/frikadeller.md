@@ -3,6 +3,10 @@ title: "Frikadeller"
 prep_time: "10 min"
 cook_time: "20 min"
 yield: "4 personer"
+sværhedsgrad: "Svær"
+metode: "Pande"
+kategori: "Suppe"
+indhold: "Vegetarisk"
 # recipe_image: "/assets/images/frikadeller.jpg"
 ingredients:
   - 1 kg modne tomater
