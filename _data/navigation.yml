@@ -1,7 +1,7 @@
 main:
   - title: "Forside"
     url: /
-  - title: "Alle Opskrifter"
+  - title: "Opskrifter"
     url: /opskrifter/
   - title: "Udstyr"
     url: /udstyr/
