@@ -7,7 +7,7 @@ recipe_image: "/assets/images/standardmad.jpg"
 sværhedsgrad: "Nem"
 metode: "Trykkoger"
 kategori: "Suppe"
-indhold: "Vegetarisk"
+indhold: "Vegansk"
 ingredients:
   - 1 kg modne tomater
   - 2 løg
