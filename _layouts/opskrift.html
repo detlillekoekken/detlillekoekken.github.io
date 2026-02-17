@@ -1,0 +1,65 @@
+---
+layout: single
+---
+
+<article class="recipe-card" itemscope itemtype="https://schema.org/Recipe">
+  <header class="recipe-header">
+    <h1 itemprop="name">{{ page.title }}</h1>
+    
+    <div class="recipe-meta-top">
+      {% if page.prep_time %}<span><i class="fas fa-clock"></i> <strong>Forberedelse:</strong> {{ page.prep_time }}</span>{% endif %}
+      {% if page.cook_time %}<span><i class="fas fa-utensils"></i> <strong>Tilberedning:</strong> {{ page.cook_time }}</span>{% endif %}
+      {% if page.yield %}<span><i class="fas fa-users"></i> <strong>Antal:</strong> <span itemprop="recipeYield">{{ page.yield }}</span></span>{% endif %}
+    </div>
+  </header>
+
+  {% if page.recipe_image %}
+    <div class="recipe-image">
+      <img src="{{ page.recipe_image | relative_url }}" alt="{{ page.title }}" itemprop="image">
+    </div>
+  {% endif %}
+
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h3><i class="fas fa-list-ul"></i> Ingredienser</h3>
+      <ul>
+        {% for ingredient in page.ingredients %}
+          <li itemprop="recipeIngredient">{{ ingredient }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="recipe-instructions" itemprop="recipeInstructions">
+      <h3><i class="fas fa-tasks"></i> Fremgangsmåde</h3>
+      <div class="instructions-content">
+        {{ content }}
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+  .recipe-card {
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    padding: 2em;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 2em;
+  }
+  .recipe-header h1 { margin-top: 0; color: #333; border-bottom: 2px solid #f39c12; padding-bottom: 10px; }
+  .recipe-meta-top { margin: 15px 0; font-size: 0.9em; color: #666; display: flex; flex-wrap: wrap; gap: 20px; }
+  .recipe-image img { width: 100%; height: auto; border-radius: 8px; margin: 20px 0; }
+  .recipe-ingredients {
+    background: #fff9f0;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 5px solid #f39c12;
+    margin-bottom: 30px;
+  }
+  .recipe-ingredients h3 { margin-top: 0; color: #d35400; }
+  .recipe-ingredients ul { list-style-type: none; padding-left: 0; }
+  .recipe-ingredients li { padding: 5px 0; border-bottom: 1px dotted #e1e1e1; }
+  .recipe-instructions h3 { color: #d35400; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+  .instructions-content { line-height: 1.8; }
+</style>
