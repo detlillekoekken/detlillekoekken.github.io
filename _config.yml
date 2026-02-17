@@ -2,9 +2,9 @@ title: "Det Lille Køkken"
 locale: "da-DK"
 timezone: "Europe/Copenhagen"
 words_per_minute: 200
-description: "Min samling af opskrifter"
+description: "Madinteresse og opskrifter"
 url: "https://detlillekøkken.dk"
-baseurl: "" # Lad denne stå tom
+baseurl: "" # Denne skal stå tom
 
 # Tema indstillinger
 remote_theme: "mmistakes/minimal-mistakes"
