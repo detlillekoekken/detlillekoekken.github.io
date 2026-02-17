@@ -21,8 +21,28 @@ plugins:
 paginate: 5
 paginate_path: /page:num/
 
-# Standard indstillinger for indlæg
+# Collections
+collections:
+  opskrifter:
+    output: true
+    permalink: /:collection/:path/
+   # Eller:    permalink: /opskrifter/:path/
+
+
+# Defaults
 defaults:
+ # Opskrift - default
+  - scope:
+      path: ""
+      type: "opskrifter"
+    values:
+      layout: "opskrift" # Her henvises til det layout jeg har bygget
+      author_profile: false
+      read_time: false
+      share: false
+      comments: false
+
+ # Indlæg - default
   - scope:
       path: ""
       type: "posts"
@@ -33,26 +53,8 @@ defaults:
       share: false
       comments: false
 
-# Standard indstillinger for indlæg
 
-collections:
-  opskrifter:
-    output: true
-    permalink: /opskrifter/:path/
-
-# Opdater også dine defaults, så alle filer i _opskrifter automatisk bruger opskrift-layoutet
-defaults:
-  - scope:
-      path: ""
-      type: "opskrifter"
-    values:
-      layout: "recipe" # Her henviser vi til det layout, vi bygger om lidt
-      author_profile: false
-      read_time: false
-      share: false
-      comments: false
-
-# Reading Files
+# Læs filer
 include:
   - .htaccess
   - _pages
