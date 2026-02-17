@@ -171,25 +171,68 @@ updateCounter({{ site.opskrifter | size }});
 </script>
 
 <style>
-  .filter-header-actions { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-  .counter-pill { background: #eee; color: #666; padding: 8px 16px; border-radius: 20px; font-size: 0.85em; border: 1px solid #ddd; white-space: nowrap; }
-  .filter-toggle-btn { background: #333; color: white; padding: 8px 16px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.9em; transition: background 0.2s; }
+  /* Filter-sektion */
+  .filter-header-actions { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .counter-pill { background: #f8f8f8; color: #666; padding: 6px 14px; border-radius: 20px; font-size: 0.8em; border: 1px solid #ddd; }
+  .filter-toggle-btn { background: #333; color: white; padding: 6px 14px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.85em; }
   .filter-box { display: none; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #eee; margin-bottom: 30px; }
   .filter-box.active { display: block; }
-  .filter-group-wrapper { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
-  .filter-group h4 { margin: 0 0 10px 0; font-size: 0.75em; text-transform: uppercase; color: #aaa; letter-spacing: 0.5px; }
-  .filter-options { display: flex; flex-wrap: wrap; gap: 6px; }
-  .filter-pill { background: #f5f5f5; border: 1px solid #eee; padding: 4px 10px; border-radius: 15px; font-size: 0.8em; cursor: pointer; color: #555; transition: background 0.2s; }
-  .filter-pill.active { background: #222; color: #fff; border-color: #222; }
-  .filter-footer { margin-top: 25px; display: flex; align-items: center; gap: 10px; }
-  .footer-separator { color: #ccc; font-size: 0.85em; }
-  .reset-link { background: none; border: none; color: #d9534f; text-decoration: underline; cursor: pointer; display: block; font-size: 0.85em; padding: 0; }
-  .recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-  .recipe-teaser { display: flex; flex-direction: column; height: 100%; border-radius: 10px; overflow: hidden; text-decoration: none; color: inherit; border: 1px solid #eee; transition: box-shadow 0.3s; }
-  .recipe-teaser:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-  .recipe-img-container { width: 100%; height: 160px; overflow: hidden; }
-  .recipe-img-container img { width: 100%; height: 100%; object-fit: cover; }
-  .recipe-info { padding: 15px; background: white; }
-  .recipe-info h3 { margin: 0; font-size: 1.1em; }
-  .recipe-tags { font-size: 0.8em; color: #999; margin-top: 5px; }
+  .filter-group-wrapper { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 20px; }
+  .filter-group h4 { margin: 0 0 10px 0; font-size: 0.7em; text-transform: uppercase; color: #999; }
+  .filter-options { display: flex; flex-wrap: wrap; gap: 5px; }
+  .filter-pill { background: #f5f5f5; border: 1px solid #eee; padding: 3px 8px; border-radius: 12px; font-size: 0.75em; cursor: pointer; color: #555; }
+  .filter-pill.active { background: #222; color: #fff; }
+  .filter-footer { margin-top: 20px; font-size: 0.8em; }
+  .reset-link { background: none; border: none; color: #d9534f; text-decoration: underline; cursor: pointer; padding: 0; }
+
+  /* Grid-layout: 2 kolonner på mobil, flere på desktop */
+  .recipe-grid { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); /* 2 kolonner som standard (mobil) */
+    gap: 15px; 
+  }
+
+  /* Desktop-tilpasning */
+  @media (min-width: 768px) {
+    .recipe-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; }
+  }
+
+  .recipe-item { max-width: 100%; }
+  
+  .recipe-teaser { 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    text-decoration: none; 
+    color: inherit; 
+    border: 1px solid #eee; 
+    background: #fff;
+    transition: transform 0.2s;
+  }
+  
+  .recipe-teaser:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+  /* Fiks højde på billedet så kortene ikke hopper */
+  .recipe-img-container { 
+    width: 100%; 
+    height: 130px; /* Lavere højde for at gøre kortene mere kompakte */
+    overflow: hidden; 
+    background: #f9f9f9;
+  }
+  
+  @media (min-width: 768px) {
+    .recipe-img-container { height: 160px; }
+  }
+
+  .recipe-img-container img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+  }
+
+  .recipe-info { padding: 10px; flex-grow: 1; display: flex; flex-direction: column; }
+  .recipe-info h3 { margin: 0; font-size: 0.95em; line-height: 1.2; color: #333; }
+  .recipe-tags { font-size: 0.75em; color: #999; margin-top: 5px; }
 </style>
