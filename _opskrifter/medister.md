@@ -7,7 +7,7 @@ svaerhedsgrad: "nem"
 # metode: "pande"
 kategori: "hovedret"
 indhold: ["Svinekød", "kalvekød"]
-# recipe_image: "/assets/images/frikadeller.jpg"
+# recipe_image: "/assets/images/logo.png"
 ingredients:
   - 1 kg modne tomater
   - 2 løg
