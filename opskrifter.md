@@ -65,11 +65,14 @@ permalink: /opskrifter/
 
 <div class="recipe-grid" id="recipe-list">
   {% for opskrift in sorterede_opskrifter %}
+    {% comment %} Vi tjekker begge stavemåder for at være sikre {% endcomment %}
+    {% assign s_grad = opskrift.sværhedsgrad | default: opskrift.svaerhedsgrad | strip | downcase %}
+    
     <div class="recipe-item" 
          data-kategori="{{ opskrift.kategori | strip | downcase }}" 
          data-metode="{{ opskrift.metode | strip | downcase }}" 
          data-indhold="{{ opskrift.indhold | strip | downcase }}"
-         data-svær="{{ opskrift.sværhedsgrad | strip | downcase }}">
+         data-sværhedsgrad="{{ s_grad }}">
       <a href="{{ opskrift.url | relative_url }}" class="recipe-teaser">
         <div class="recipe-img-container">
           {% if opskrift.recipe_image %}
@@ -80,7 +83,7 @@ permalink: /opskrifter/
         </div>
         <div class="recipe-info">
           <h3>{{ opskrift.title }}</h3>
-          <p class="recipe-tags">{{ opskrift.kategori }} • {{ opskrift.sværhedsgrad }}</p>
+          <p class="recipe-tags">{{ opskrift.kategori | capitalize }} • {{ s_grad | capitalize }}</p>
         </div>
       </a>
     </div>
@@ -115,7 +118,7 @@ function filterRecipes() {
     const rKategori = recipe.getAttribute('data-kategori') || "";
     const rMetode = recipe.getAttribute('data-metode') || "";
     const rIndhold = recipe.getAttribute('data-indhold') || "";
-    const rSvær = recipe.getAttribute('data-svær') || "";
+    const rSvær = recipe.getAttribute('data-sværhedsgrad') || "";
 
     const matchKategori = filters.kategori.length === 0 || filters.kategori.includes(rKategori);
     const matchMetode = filters.metode.length === 0 || filters.metode.includes(rMetode);
@@ -147,13 +150,12 @@ function resetFilters() {
   .filter-group h4 { margin: 0 0 10px 0; font-size: 0.75em; text-transform: uppercase; color: #aaa; letter-spacing: 0.5px; }
   .filter-options { display: flex; flex-wrap: wrap; gap: 6px; }
 
-  /* Mindre knapper uden størrelseshop */
   .filter-pill { 
     background: #f5f5f5; border: 1px solid #eee; padding: 4px 10px; border-radius: 15px; 
     font-size: 0.8em; cursor: pointer; transition: background 0.2s, color 0.2s; color: #555;
     white-space: nowrap;
   }
-  .filter-pill.active { background: #222; color: #fff; border-color: #222; font-weight: normal; }
+  .filter-pill.active { background: #222; color: #fff; border-color: #222; }
   
   .reset-link { background: none; border: none; color: #d9534f; text-decoration: underline; cursor: pointer; margin-top: 20px; display: block; font-size: 0.85em; }
   
