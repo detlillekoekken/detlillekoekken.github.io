@@ -1,30 +1,19 @@
 ---
-layout: single
 title: "Klassisk Tomatsuppe"
-date: 2026-02-13
-categories:
-  - opskrifter
-tags:
-  - aftensmad
-  - vegetarisk
-header:
-  teaser: /assets/images/tomatsuppe-teaser.jpg
----
-
-Velkommen til Det Lille Køkken! Her er min allerførste opskrift, som er en favorit i hverdagen.
-
-
-title: Klassisk Tomatsuppe
-description: En nem og hurtig suppe til hverdagen, der smager af solskin.
-### Ingredienser:
+prep_time: "10 min"
+cook_time: "20 min"
+yield: "4 personer"
+recipe_image: "/assets/images/tomatsuppe.jpg"
+ingredients:
   - 1 kg modne tomater
-  - 2 fed hvidløg
-  - 1 løg, hakket
+  - 2 løg
+  - 3 fed hvidløg
   - 5 dl grøntsagsbouillon
-  - En håndfuld frisk basilikum
-  - Salt og peber
+---
+Her skriver du din tekst om hvordan man gør...
 
-### Fremgangsmåde:
+
+
   - Hak tomater, løg og hvidløg groft.
   - Svits løg og hvidløg i en gryde med lidt olie.
   - Tilsæt tomater og bouillon, og lad det simre i ca. 20 minutter.
