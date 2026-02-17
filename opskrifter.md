@@ -24,10 +24,13 @@ permalink: /opskrifter/
         <h4>{% if type == "svaerhedsgrad" %}Sværhedsgrad{% else %}{{ type | capitalize }}{% endif %}</h4>
         <div class="filter-options">
           {% assign all_values = "" | split: "" %}
+          {% assign has_empty = false %}
           
           {% for opskrift in site.opskrifter %}
             {% assign val = opskrift[type] %}
-            {% if val %}
+            {% if val == nil or val == "" or val == empty %}
+              {% assign has_empty = true %}
+            {% else %}
               {% if val.first %}
                 {% for item in val %}
                   {% assign cleaned_item = item | strip | downcase %}
@@ -45,6 +48,10 @@ permalink: /opskrifter/
           {% for value in unique_values %}
             <span class="filter-pill" data-type="{{ type }}" onclick="togglePill(this)">{{ value | capitalize }}</span>
           {% endfor %}
+
+          {% if has_empty %}
+            <span class="filter-pill" data-type="{{ type }}" data-io="true" onclick="togglePill(this)">I/O</span>
+          {% endif %}
         </div>
       </div>
     {% endfor %}
@@ -70,10 +77,10 @@ permalink: /opskrifter/
     {% assign s_grad = opskrift.svaerhedsgrad | default: opskrift.sværhedsgrad | downcase | strip %}
     
     <div class="recipe-item" 
-         data-kategori="{{ kat_list }}" 
-         data-metode="{{ met_list }}" 
-         data-indhold="{{ ind_list }}"
-         data-svaerhedsgrad="{{ s_grad }}">
+         data-kategori="{{ kat_list | default: 'i/o' }}" 
+         data-metode="{{ met_list | default: 'i/o' }}" 
+         data-indhold="{{ ind_list | default: 'i/o' }}"
+         data-svaerhedsgrad="{{ s_grad | default: 'i/o' }}">
       <a href="{{ opskrift.url | relative_url }}" class="recipe-teaser">
         <div class="recipe-img-container">
           {% if opskrift.recipe_image %}
@@ -85,10 +92,10 @@ permalink: /opskrifter/
         <div class="recipe-info">
           <h3>{{ opskrift.title }}</h3>
           <p class="recipe-tags">
-            {% if opskrift.kategori.first %}
+            {% if opskrift.kategori %}
               {{ opskrift.kategori | join: ' • ' }}
             {% else %}
-              {{ opskrift.kategori }}
+              I/O
             {% endif %}
           </p>
         </div>
@@ -160,35 +167,29 @@ function resetFilters() {
   filterRecipes();
 }
 
-// Kør tælleren ved start for at sikre korrekt tekst (ental/flertal)
 updateCounter({{ site.opskrifter | size }});
 </script>
 
 <style>
   .filter-header-actions { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-  
-  .counter-pill {
-    background: #eee; color: #666; padding: 8px 16px; border-radius: 20px;
-    font-size: 0.85em; border: 1px solid #ddd; white-space: nowrap;
-  }
-
+  .counter-pill { background: #eee; color: #666; padding: 8px 16px; border-radius: 20px; font-size: 0.85em; border: 1px solid #ddd; white-space: nowrap; }
   .filter-toggle-btn { background: #333; color: white; padding: 8px 16px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.9em; transition: background 0.2s; }
-  .filter-toggle-btn:hover { background: #555; }
-
   .filter-box { display: none; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #eee; margin-bottom: 30px; }
   .filter-box.active { display: block; }
-  
   .filter-group-wrapper { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
   .filter-group h4 { margin: 0 0 10px 0; font-size: 0.75em; text-transform: uppercase; color: #aaa; letter-spacing: 0.5px; }
-  
   .filter-options { display: flex; flex-wrap: wrap; gap: 6px; }
   .filter-pill { background: #f5f5f5; border: 1px solid #eee; padding: 4px 10px; border-radius: 15px; font-size: 0.8em; cursor: pointer; color: #555; transition: background 0.2s; }
   .filter-pill.active { background: #222; color: #fff; border-color: #222; }
-
   .filter-footer { margin-top: 25px; display: flex; align-items: center; gap: 10px; }
   .footer-separator { color: #ccc; font-size: 0.85em; }
   .reset-link { background: none; border: none; color: #d9534f; text-decoration: underline; cursor: pointer; display: block; font-size: 0.85em; padding: 0; }
-  .reset-link:hover { color: #c9302c; }
-
   .recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-  .recipe-teaser { display: flex
+  .recipe-teaser { display: flex; flex-direction: column; height: 100%; border-radius: 10px; overflow: hidden; text-decoration: none; color: inherit; border: 1px solid #eee; transition: box-shadow 0.3s; }
+  .recipe-teaser:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+  .recipe-img-container { width: 100%; height: 160px; overflow: hidden; }
+  .recipe-img-container img { width: 100%; height: 100%; object-fit: cover; }
+  .recipe-info { padding: 15px; background: white; }
+  .recipe-info h3 { margin: 0; font-size: 1.1em; }
+  .recipe-tags { font-size: 0.8em; color: #999; margin-top: 5px; }
+</style>
