@@ -3,7 +3,7 @@ title: "Frikadeller"
 prep_time: "10 min"
 cook_time: "20 min"
 yield: "4 personer"
-recipe_image: "/assets/images/deadlink.png"
+# recipe_image: "/assets/images/frikadeller.jpg"
 ingredients:
   - 1 kg modne tomater
   - 2 løg
