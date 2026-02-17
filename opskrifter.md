@@ -1,57 +1,41 @@
 ---
 layout: single
-title: "Alle Opskrifter"
+title: "Find en opskrift"
 permalink: /opskrifter/
 ---
 
-<div class="filter-section">
-  <div class="filter-group">
-    <label for="filter-kategori">Kategori</label>
-    <select id="filter-kategori" onchange="filterRecipes()">
-      <option value="all">Alle</option>
-      <option value="Forret">Forret</option>
-      <option value="Hovedret">Hovedret</option>
-      <option value="Dessert">Dessert</option>
-      <option value="Suppe">Suppe</option>
-      <option value="Snack">Snack</option>
-      <option value="Slik">Slik</option>
-    </select>
-  </div>
+<button class="btn btn--info" onclick="toggleFilter()" style="margin-bottom: 20px;">
+  <i class="fas fa-filter"></i> Filtrér opskrifter
+</button>
 
-  <div class="filter-group">
-    <label for="filter-metode">Metode</label>
-    <select id="filter-metode" onchange="filterRecipes()">
-      <option value="all">Alle</option>
-      <option value="Sous Vide">Sous Vide</option>
-      <option value="Grill">Grill</option>
-      <option value="Røgning">Røgning</option>
-      <option value="Trykkoger">Trykkoger</option>
-      <option value="Slow Cook">Slow Cook</option>
-    </select>
-  </div>
+<div id="filter-container" style="display: none; background: #f4f4f4; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+  <div class="filter-grid">
+    
+    <div class="filter-col">
+      <h4>Kategori</h4>
+      <label><input type="checkbox" class="filter-check" data-type="kategori" value="Forret"> Forret</label><br>
+      <label><input type="checkbox" class="filter-check" data-type="kategori" value="Hovedret"> Hovedret</label><br>
+      <label><input type="checkbox" class="filter-check" data-type="kategori" value="Dessert"> Dessert</label><br>
+      <label><input type="checkbox" class="filter-check" data-type="kategori" value="Suppe"> Suppe</label>
+    </div>
 
-  <div class="filter-group">
-    <label for="filter-indhold">Indhold</label>
-    <select id="filter-indhold" onchange="filterRecipes()">
-      <option value="all">Alt</option>
-      <option value="Svinekød">Svinekød</option>
-      <option value="Oksekød">Oksekød</option>
-      <option value="Vegansk">Vegansk</option>
-    </select>
-  </div>
+    <div class="filter-col">
+      <h4>Metode</h4>
+      <label><input type="checkbox" class="filter-check" data-type="metode" value="Sous Vide"> Sous Vide</label><br>
+      <label><input type="checkbox" class="filter-check" data-type="metode" value="Grill"> Grill</label><br>
+      <label><input type="checkbox" class="filter-check" data-type="metode" value="Trykkoger"> Trykkoger</label>
+    </div>
 
-  <div class="filter-group">
-    <label for="filter-sværhedsgrad">Sværhedsgrad</label>
-    <select id="filter-sværhedsgrad" onchange="filterRecipes()">
-      <option value="all">Alle</option>
-      <option value="Nem">Nem</option>
-      <option value="Middel">Middel</option>
-      <option value="Svær">Svær</option>
-      <option value="Ekspert">Ekspert</option>
-    </select>
-  </div>
+    <div class="filter-col">
+      <h4>Indhold</h4>
+      <label><input type="checkbox" class="filter-check" data-type="indhold" value="Svinekød"> Svinekød</label><br>
+      <label><input type="checkbox" class="filter-check" data-type="indhold" value="Oksekød"> Oksekød</label><br>
+      <label><input type="checkbox" class="filter-check" data-type="indhold" value="Vegansk"> Vegansk</label>
+    </div>
 
-  <button class="btn btn--inverse" onclick="resetFilters()" style="margin-top: 25px;">Nulstil</button>
+  </div>
+  <br>
+  <button class="btn btn--small" onclick="resetFilters()">Nulstil alle</button>
 </div>
 
 <hr>
@@ -63,8 +47,7 @@ permalink: /opskrifter/
     <div class="recipe-item" 
          data-kategori="{{ opskrift.kategori }}" 
          data-metode="{{ opskrift.metode }}" 
-         data-indhold="{{ opskrift.indhold }}" 
-         data-sværhedsgrad="{{ opskrift.sværhedsgrad }}">
+         data-indhold="{{ opskrift.indhold }}">
       <a href="{{ opskrift.url | relative_url }}" class="recipe-teaser">
         {% if opskrift.recipe_image %}
           <img src="{{ opskrift.recipe_image | relative_url }}" alt="{{ opskrift.title }}">
@@ -73,7 +56,7 @@ permalink: /opskrifter/
         {% endif %}
         <div class="recipe-info">
           <h3>{{ opskrift.title }}</h3>
-          <p class="recipe-tags">{{ opskrift.kategori }} • {{ opskrift.sværhedsgrad }}</p>
+          <p class="recipe-tags">{{ opskrift.kategori }} • {{ opskrift.indhold }}</p>
         </div>
       </a>
     </div>
@@ -83,95 +66,64 @@ permalink: /opskrifter/
 <p id="no-results" style="display:none; text-align: center; margin-top: 50px;">Ingen opskrifter matcher de valgte filtre.</p>
 
 <script>
+// Vis/skjul filter-boksen
+function toggleFilter() {
+  const container = document.getElementById('filter-container');
+  container.style.display = container.style.display === 'none' ? 'block' : 'none';
+}
+
+// Lyt efter ændringer på alle tjekbokse
+document.querySelectorAll('.filter-check').forEach(box => {
+  box.addEventListener('change', filterRecipes);
+});
+
 function filterRecipes() {
-  const kategori = document.getElementById('filter-kategori').value;
-  const metode = document.getElementById('filter-metode').value;
-  const indhold = document.getElementById('filter-indhold').value;
-  const svær = document.getElementById('filter-sværhedsgrad').value;
-  
+  // Hent alle valgte værdier fordelt på typer
+  const activeFilters = {
+    kategori: Array.from(document.querySelectorAll('.filter-check[data-type="kategori"]:checked')).map(cb => cb.value),
+    metode: Array.from(document.querySelectorAll('.filter-check[data-type="metode"]:checked')).map(cb => cb.value),
+    indhold: Array.from(document.querySelectorAll('.filter-check[data-type="indhold"]:checked')).map(cb => cb.value)
+  };
+
   const recipes = document.querySelectorAll('.recipe-item');
-  let count = 0;
+  let visibleCount = 0;
 
   recipes.forEach(recipe => {
-    // Vi tjekker om attributten findes og matcher, eller om 'all' er valgt
-    const matchKategori = kategori === 'all' || recipe.getAttribute('data-kategori') === kategori;
-    const matchMetode = metode === 'all' || recipe.getAttribute('data-metode') === metode;
-    const matchIndhold = indhold === 'all' || recipe.getAttribute('data-indhold') === indhold;
-    const matchSvær = svær === 'all' || recipe.getAttribute('data-sværhedsgrad') === svær;
+    const rKategori = recipe.getAttribute('data-kategori');
+    const rMetode = recipe.getAttribute('data-metode');
+    const rIndhold = recipe.getAttribute('data-indhold');
 
-    if (matchKategori && matchMetode && matchIndhold && matchSvær) {
+    // Tjek om opskriften passer i HVER kategori (hvis der er valgt noget i den kategori)
+    const matchKategori = activeFilters.kategori.length === 0 || activeFilters.kategori.includes(rKategori);
+    const matchMetode = activeFilters.metode.length === 0 || activeFilters.metode.includes(rMetode);
+    const matchIndhold = activeFilters.indhold.length === 0 || activeFilters.indhold.includes(rIndhold);
+
+    if (matchKategori && matchMetode && matchIndhold) {
       recipe.style.display = 'block';
-      count++;
+      visibleCount++;
     } else {
       recipe.style.display = 'none';
     }
   });
 
-  document.getElementById('no-results').style.display = count === 0 ? 'block' : 'none';
+  document.getElementById('no-results').style.display = visibleCount === 0 ? 'block' : 'none';
 }
 
 function resetFilters() {
-  document.getElementById('filter-kategori').value = 'all';
-  document.getElementById('filter-metode').value = 'all';
-  document.getElementById('filter-indhold').value = 'all';
-  document.getElementById('filter-sværhedsgrad').value = 'all';
+  document.querySelectorAll('.filter-check').forEach(cb => cb.checked = false);
   filterRecipes();
 }
 </script>
 
 <style>
-  .filter-section {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    background: #f4f4f4;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 30px;
-  }
-  .filter-group {
-    display: flex;
-    flex-direction: column;
-    min-width: 140px;
-  }
-  .filter-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-size: 0.85em;
-  }
-  .recipe-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
-  }
-  .recipe-teaser {
-    display: block;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    overflow: hidden;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.2s;
-  }
-  .recipe-teaser:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  }
-  .recipe-teaser img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-  }
-  .recipe-info {
-    padding: 15px;
-  }
-  .recipe-info h3 {
-    margin: 0;
-    font-size: 1.1em;
-  }
-  .recipe-tags {
-    font-size: 0.8em;
-    color: #666;
-    margin-top: 5px;
-  }
+  .filter-grid { display: flex; flex-wrap: wrap; gap: 40px; }
+  .filter-col h4 { margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #ccc; }
+  .filter-col label { cursor: pointer; display: inline-block; padding: 2px 0; }
+  
+  .recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+  .recipe-teaser { display: block; border: 1px solid #eee; border-radius: 8px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s; height: 100%; }
+  .recipe-teaser img { width: 100%; height: 180px; object-fit: cover; }
+  .recipe-info { padding: 15px; }
+  .recipe-info h3 { margin: 0; font-size: 1.1em; color: #333; }
+  .recipe-tags { font-size: 0.85em; color: #777; margin-top: 5px; }
 </style>
