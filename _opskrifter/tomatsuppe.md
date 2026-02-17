@@ -5,9 +5,9 @@ cook_time: "20 min"
 yield: "4 personer"
 recipe_image: "/assets/images/standardmad.jpg"
 svaerhedsgrad: "Nem"
-metode: "Trykkoger"
-kategori: "Suppe"
-indhold: "Vegansk"
+metode: ["Trykkoger", "Ovn"]
+kategori: ["Suppe", "Forret", "Hovedret"]
+indhold: ["Vegansk", "Vegetarisk"]
 ingredients:
   - 1 kg modne tomater
   - 2 løg
