@@ -3,8 +3,10 @@ layout: home
 header:
   overlay_image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070"
   overlay_filter: 0.5
-//  caption: "Velkommen til mit køkken"
-excerpt: "Min samling af opskrifter - Open Source madglæde."
+//  caption: "Velkommen til Det Lille Køkken"
+excerpt: "- Open Source madglæde til folket."
+
+
 ---
 
 <style>
@@ -17,7 +19,45 @@ excerpt: "Min samling af opskrifter - Open Source madglæde."
   .initial-content {
     margin-top: 0 !important;
   }
+
+
+  .recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .recipe-teaser {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+  }
+  .recipe-teaser img { 
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  .recipe-teaser h2 {
+    font-size: 1.1em;
+    padding: 10px;
+    margin: 0;
+  }
 </style>
 
-
+## Nyeste opskrifter
 Herunder findes de allernyeste opskrifter.
+
+<div class="recipe-grid">
+  {% for opskrift in site.opskrifter limit: 6 %}
+    <a href="{{ opskrift.url | relative_url }}" class="recipe-teaser">
+      {% if opskrift.recipe_image %}
+        <img src="{{ opskrift.recipe_image | relative_url }}" alt="{{ opskrift.title }}">
+      {% else %}
+        <img src="https://via.placeholder.com/300x200?text=Ingen+billede" alt="Ingen billede">
+      {% endif %}
+      <h2>{{ opskrift.title }}</h2>
+    </a>
+  {% endfor %}
+</div>
