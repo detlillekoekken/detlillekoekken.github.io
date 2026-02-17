@@ -9,7 +9,7 @@ tags:
   - svinekød
   - kalvekød
 header:
-  teaser: /assets/images/frikadelle-teaser.jpg
+  teaser: /assets/images/standardmad.png
 ---
 
 
