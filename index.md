@@ -8,15 +8,6 @@ header:
 ---
 
 <style>
-  /* Skjul topbjælken kun på forsiden */
-  .masthead {
-    display: none !important;
-  }
-  /* Fjern det hvide mellemrum i toppen */
-  .initial-content {
-    margin-top: 0 !important;
-  }
-
   /* Grid-system til opskrifter */
   .recipe-grid {
     display: grid;
