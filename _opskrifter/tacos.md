@@ -1,5 +1,5 @@
 ---
-title: "Medister"
+title: "Tacos"
 prep_time: "10 min"
 cook_time: "20 min"
 yield: "4 personer"
