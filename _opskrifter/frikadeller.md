@@ -5,8 +5,8 @@ cook_time: "20 min"
 yield: "4 personer"
 sværhedsgrad: "middel"
 metode: "Airfryer"
-kategori: "Svinekød"
-indhold: "Vegetarisk"
+kategori: "hovedret"
+indhold: "svinekød"
 # recipe_image: "/assets/images/frikadeller.jpg"
 ingredients:
   - 1 kg modne tomater
