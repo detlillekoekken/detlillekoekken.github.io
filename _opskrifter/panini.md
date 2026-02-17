@@ -8,7 +8,7 @@ svaerhedsgrad: "nem"
 # metode: "pande"
 kategori: "hovedret"
 indhold: ["Svinekød", "kalvekød"]
-recipe_image: "/assets/images/logo.png"
+recipe_image: "/assets/images/standardmad.png"
 ingredients:
   - 1 kg modne tomater
   - 2 løg
