@@ -164,6 +164,7 @@ updateCounter({{ site.opskrifter | size }});
 </script>
 
 <style>
+  /* Header & Filter */
   .filter-header-actions { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
   .filter-toggle-btn { background: #333; color: white; padding: 6px 14px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.85em; display: flex; align-items: center; gap: 8px; }
   .counter-pill { background: #f8f8f8; color: #666; padding: 6px 14px; border-radius: 20px; font-size: 0.8em; border: 1px solid #ddd; display: flex; align-items: center; gap: 8px; }
@@ -178,28 +179,26 @@ updateCounter({{ site.opskrifter | size }});
   .footer-separator { color: #ccc; }
   .reset-link { background: none; border: none; color: #000; text-decoration: underline; cursor: pointer; padding: 0; }
 
-  /* Grid Layout - Fixet til mobil og desktop */
+  /* Grid Layout */
   .recipe-grid { 
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Tillader kortene at flexe lidt på mobil */
+    grid-template-columns: repeat(2, 1fr); 
     gap: 15px;
-    justify-content: center; /* Centrerer rækkerne */
+    justify-content: center;
   }
 
-  /* Specifik mobil-optimering for at undgå beskæring af billeder */
   @media (max-width: 767px) {
-    .recipe-grid {
-      grid-template-columns: repeat(2, minmax(0, 180px)); /* Låser bredden på mobil-kort, så de ikke bliver for brede */
-    }
+    .recipe-grid { grid-template-columns: repeat(2, minmax(0, 180px)); }
   }
 
   @media (min-width: 768px) {
     .recipe-grid { 
-      grid-template-columns: repeat(auto-fill, 180px); /* Faste kort på computer */
+      grid-template-columns: repeat(auto-fill, 180px); 
       gap: 20px;
     }
   }
 
+  /* Kort Styling */
   .recipe-teaser { 
     display: flex; 
     flex-direction: column; 
@@ -215,19 +214,24 @@ updateCounter({{ site.opskrifter | size }});
   
   .recipe-teaser:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
+  /* 4:3 Ratio på billedbeholderen */
   .recipe-img-container { 
     width: 100%; 
-    aspect-ratio: 4 / 3; /* Bruger aspect-ratio i stedet for fast højde for at bevare proportioner */
+    aspect-ratio: 4 / 3; 
+    position: relative;
     overflow: hidden; 
     background: #f9f9f9; 
   }
 
   .recipe-img-container img { 
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%; 
     height: 100%; 
     object-fit: cover; 
   }
 
-  .recipe-info { padding: 8px; flex-grow: 1; text-align: center; }
+  .recipe-info { padding: 8px; flex-grow: 1; text-align: center; display: flex; align-items: center; justify-content: center; }
   .recipe-info h3 { margin: 0; font-size: 0.85em; line-height: 1.2; color: #333; font-weight: 600; }
 </style>
