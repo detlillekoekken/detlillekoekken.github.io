@@ -91,13 +91,7 @@ permalink: /opskrifter/
         </div>
         <div class="recipe-info">
           <h3>{{ opskrift.title }}</h3>
-          <p class="recipe-tags">
-            {% if opskrift.kategori %}
-              {{ opskrift.kategori | join: ' • ' }}
-            {% else %}
-              I/O
-            {% endif %}
-          </p>
+          {% comment %} Tags er fjernet herfra {% endcomment %}
         </div>
       </a>
     </div>
@@ -185,25 +179,27 @@ updateCounter({{ site.opskrifter | size }});
   .filter-footer { margin-top: 20px; font-size: 0.8em; }
   .reset-link { background: none; border: none; color: #d9534f; text-decoration: underline; cursor: pointer; padding: 0; }
 
-  /* Grid-layout: 2 kolonner på mobil, flere på desktop */
+  /* Grid-layout */
   .recipe-grid { 
     display: grid; 
-    grid-template-columns: repeat(2, 1fr); /* 2 kolonner som standard (mobil) */
+    grid-template-columns: repeat(2, 1fr); /* 2 kolonner på mobil */
     gap: 15px; 
   }
 
-  /* Desktop-tilpasning */
+  /* Desktop-tilpasning: Vi låser bredden så de ikke bliver for store */
   @media (min-width: 768px) {
-    .recipe-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; }
+    .recipe-grid { 
+      grid-template-columns: repeat(auto-fill, 180px); /* Hvert kort er nu præcis 180px bredt på desktop */
+      gap: 20px; 
+      justify-content: center; /* Centrerer dem på siden */
+    }
   }
 
-  .recipe-item { max-width: 100%; }
-  
   .recipe-teaser { 
     display: flex; 
     flex-direction: column; 
     height: 100%; 
-    border-radius: 8px; 
+    border-radius: 6px; 
     overflow: hidden; 
     text-decoration: none; 
     color: inherit; 
@@ -214,16 +210,15 @@ updateCounter({{ site.opskrifter | size }});
   
   .recipe-teaser:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
-  /* Fiks højde på billedet så kortene ikke hopper */
   .recipe-img-container { 
     width: 100%; 
-    height: 130px; /* Lavere højde for at gøre kortene mere kompakte */
+    height: 120px; /* Fast højde på mobil */
     overflow: hidden; 
     background: #f9f9f9;
   }
   
   @media (min-width: 768px) {
-    .recipe-img-container { height: 160px; }
+    .recipe-img-container { height: 140px; } /* Fast højde på desktop */
   }
 
   .recipe-img-container img { 
@@ -232,7 +227,17 @@ updateCounter({{ site.opskrifter | size }});
     object-fit: cover; 
   }
 
-  .recipe-info { padding: 10px; flex-grow: 1; display: flex; flex-direction: column; }
-  .recipe-info h3 { margin: 0; font-size: 0.95em; line-height: 1.2; color: #333; }
-  .recipe-tags { font-size: 0.75em; color: #999; margin-top: 5px; }
+  .recipe-info { 
+    padding: 8px; 
+    flex-grow: 1; 
+    text-align: center; /* Centrerer titlen */
+  }
+  
+  .recipe-info h3 { 
+    margin: 0; 
+    font-size: 0.85em; /* Lidt mindre skrift */
+    line-height: 1.2; 
+    color: #333; 
+    font-weight: 600;
+  }
 </style>
