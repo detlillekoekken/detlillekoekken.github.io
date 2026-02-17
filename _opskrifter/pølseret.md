@@ -1,5 +1,6 @@
 ---
 title: "Svensk pølseret"
+date: 2026-01-20
 prep_time: "10 min"
 cook_time: "20 min"
 yield: "4 personer"
