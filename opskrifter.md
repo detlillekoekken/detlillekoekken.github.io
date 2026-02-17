@@ -5,13 +5,13 @@ permalink: /opskrifter/
 ---
 
 <div class="filter-header-actions">
-  <div id="recipe-counter" class="counter-pill">
-    {{ site.opskrifter | size }} tilgængelige opskrifter
-  </div>
-
   <button class="filter-toggle-btn" onclick="toggleFilter()">
     <i class="fas fa-sliders-h"></i> Filtrér udvalg
   </button>
+
+  <div id="recipe-counter" class="counter-pill">
+    <i class="fas fa-utensils"></i> <span id="counter-text">{{ site.opskrifter | size }} tilgængelige opskrifter</span>
+  </div>
 </div>
 
 <div id="filter-container" class="filter-box">
@@ -91,7 +91,6 @@ permalink: /opskrifter/
         </div>
         <div class="recipe-info">
           <h3>{{ opskrift.title }}</h3>
-          {% comment %} Tags er fjernet herfra {% endcomment %}
         </div>
       </a>
     </div>
@@ -112,13 +111,13 @@ function togglePill(element) {
 }
 
 function updateCounter(count) {
-  const counterElement = document.getElementById('recipe-counter');
+  const counterText = document.getElementById('counter-text');
   if (count === 0) {
-    counterElement.textContent = "Ingen tilgængelige opskrifter";
+    counterText.textContent = "Ingen tilgængelige opskrifter";
   } else if (count === 1) {
-    counterElement.textContent = "1 tilgængelig opskrift";
+    counterText.textContent = "1 tilgængelig opskrift";
   } else {
-    counterElement.textContent = count + " tilgængelige opskrifter";
+    counterText.textContent = count + " tilgængelige opskrifter";
   }
 }
 
@@ -165,10 +164,14 @@ updateCounter({{ site.opskrifter | size }});
 </script>
 
 <style>
-  /* Filter-sektion */
+  /* Header Actions Layout */
   .filter-header-actions { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-  .counter-pill { background: #f8f8f8; color: #666; padding: 6px 14px; border-radius: 20px; font-size: 0.8em; border: 1px solid #ddd; }
-  .filter-toggle-btn { background: #333; color: white; padding: 6px 14px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.85em; }
+  
+  /* Knapper og Piller */
+  .filter-toggle-btn { background: #333; color: white; padding: 6px 14px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.85em; display: flex; align-items: center; gap: 8px; }
+  .counter-pill { background: #f8f8f8; color: #666; padding: 6px 14px; border-radius: 20px; font-size: 0.8em; border: 1px solid #ddd; display: flex; align-items: center; gap: 8px; }
+
+  /* Filter-boks */
   .filter-box { display: none; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #eee; margin-bottom: 30px; }
   .filter-box.active { display: block; }
   .filter-group-wrapper { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 20px; }
@@ -176,68 +179,25 @@ updateCounter({{ site.opskrifter | size }});
   .filter-options { display: flex; flex-wrap: wrap; gap: 5px; }
   .filter-pill { background: #f5f5f5; border: 1px solid #eee; padding: 3px 8px; border-radius: 12px; font-size: 0.75em; cursor: pointer; color: #555; }
   .filter-pill.active { background: #222; color: #fff; }
-  .filter-footer { margin-top: 20px; font-size: 0.8em; }
-  .reset-link { background: none; border: none; color: #d9534f; text-decoration: underline; cursor: pointer; padding: 0; }
 
-  /* Grid-layout */
-  .recipe-grid { 
-    display: grid; 
-    grid-template-columns: repeat(2, 1fr); /* 2 kolonner på mobil */
-    gap: 15px; 
-  }
+  /* Footer Links - Sorte nu */
+  .filter-footer { margin-top: 20px; font-size: 0.8em; display: flex; align-items: center; gap: 10px; }
+  .footer-separator { color: #ccc; }
+  .reset-link { background: none; border: none; color: #000; text-decoration: underline; cursor: pointer; padding: 0; font-weight: normal; }
+  .reset-link:hover { color: #333; }
 
-  /* Desktop-tilpasning: Vi låser bredden så de ikke bliver for store */
+  /* Grid Layout */
+  .recipe-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+
   @media (min-width: 768px) {
-    .recipe-grid { 
-      grid-template-columns: repeat(auto-fill, 180px); /* Hvert kort er nu præcis 180px bredt på desktop */
-      gap: 20px; 
-      justify-content: center; /* Centrerer dem på siden */
-    }
+    .recipe-grid { grid-template-columns: repeat(auto-fill, 180px); gap: 20px; justify-content: flex-start; }
   }
 
-  .recipe-teaser { 
-    display: flex; 
-    flex-direction: column; 
-    height: 100%; 
-    border-radius: 6px; 
-    overflow: hidden; 
-    text-decoration: none; 
-    color: inherit; 
-    border: 1px solid #eee; 
-    background: #fff;
-    transition: transform 0.2s;
-  }
-  
+  .recipe-teaser { display: flex; flex-direction: column; height: 100%; border-radius: 6px; overflow: hidden; text-decoration: none; color: inherit; border: 1px solid #eee; background: #fff; transition: transform 0.2s; }
   .recipe-teaser:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-
-  .recipe-img-container { 
-    width: 100%; 
-    height: 120px; /* Fast højde på mobil */
-    overflow: hidden; 
-    background: #f9f9f9;
-  }
-  
-  @media (min-width: 768px) {
-    .recipe-img-container { height: 140px; } /* Fast højde på desktop */
-  }
-
-  .recipe-img-container img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-  }
-
-  .recipe-info { 
-    padding: 8px; 
-    flex-grow: 1; 
-    text-align: center; /* Centrerer titlen */
-  }
-  
-  .recipe-info h3 { 
-    margin: 0; 
-    font-size: 0.85em; /* Lidt mindre skrift */
-    line-height: 1.2; 
-    color: #333; 
-    font-weight: 600;
-  }
+  .recipe-img-container { width: 100%; height: 120px; overflow: hidden; background: #f9f9f9; }
+  @media (min-width: 768px) { .recipe-img-container { height: 140px; } }
+  .recipe-img-container img { width: 100%; height: 100%; object-fit: cover; }
+  .recipe-info { padding: 8px; flex-grow: 1; text-align: center; }
+  .recipe-info h3 { margin: 0; font-size: 0.85em; line-height: 1.2; color: #333; font-weight: 600; }
 </style>
