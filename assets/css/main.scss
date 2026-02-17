@@ -6,7 +6,7 @@
 
 /* Gør logoet 20% større på alle sider */
 .site-logo img, .logo img {
-  max-height: 2rem !important; /* Justeret op fra standard */
+  max-height: 1rem !important; /* Justeret op fra standard */
   width: auto !important;
   transition: all 0.2s ease-in-out;
 }
