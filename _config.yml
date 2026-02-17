@@ -1,3 +1,5 @@
+# Logo indstillinger
+logo: "/assets/images/logo.png" 
 title: "Det Lille Køkken"
 locale: "da-DK"
 timezone: "Europe/Copenhagen"
