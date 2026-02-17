@@ -1,5 +1,6 @@
 ---
 title: "Klassisk Tomatsuppe"
+date: 2025-12-10
 prep_time: "10 min"
 cook_time: "20 min"
 yield: "4 personer"
