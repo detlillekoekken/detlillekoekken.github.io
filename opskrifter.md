@@ -164,14 +164,9 @@ updateCounter({{ site.opskrifter | size }});
 </script>
 
 <style>
-  /* Header Actions Layout */
   .filter-header-actions { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-  
-  /* Knapper og Piller */
   .filter-toggle-btn { background: #333; color: white; padding: 6px 14px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.85em; display: flex; align-items: center; gap: 8px; }
   .counter-pill { background: #f8f8f8; color: #666; padding: 6px 14px; border-radius: 20px; font-size: 0.8em; border: 1px solid #ddd; display: flex; align-items: center; gap: 8px; }
-
-  /* Filter-boks */
   .filter-box { display: none; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #eee; margin-bottom: 30px; }
   .filter-box.active { display: block; }
   .filter-group-wrapper { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 20px; }
@@ -179,25 +174,60 @@ updateCounter({{ site.opskrifter | size }});
   .filter-options { display: flex; flex-wrap: wrap; gap: 5px; }
   .filter-pill { background: #f5f5f5; border: 1px solid #eee; padding: 3px 8px; border-radius: 12px; font-size: 0.75em; cursor: pointer; color: #555; }
   .filter-pill.active { background: #222; color: #fff; }
-
-  /* Footer Links - Sorte nu */
   .filter-footer { margin-top: 20px; font-size: 0.8em; display: flex; align-items: center; gap: 10px; }
   .footer-separator { color: #ccc; }
-  .reset-link { background: none; border: none; color: #000; text-decoration: underline; cursor: pointer; padding: 0; font-weight: normal; }
-  .reset-link:hover { color: #333; }
+  .reset-link { background: none; border: none; color: #000; text-decoration: underline; cursor: pointer; padding: 0; }
 
-  /* Grid Layout */
-  .recipe-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-
-  @media (min-width: 768px) {
-    .recipe-grid { grid-template-columns: repeat(auto-fill, 180px); gap: 20px; justify-content: flex-start; }
+  /* Grid Layout - Fixet til mobil og desktop */
+  .recipe-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Tillader kortene at flexe lidt på mobil */
+    gap: 15px;
+    justify-content: center; /* Centrerer rækkerne */
   }
 
-  .recipe-teaser { display: flex; flex-direction: column; height: 100%; border-radius: 6px; overflow: hidden; text-decoration: none; color: inherit; border: 1px solid #eee; background: #fff; transition: transform 0.2s; }
+  /* Specifik mobil-optimering for at undgå beskæring af billeder */
+  @media (max-width: 767px) {
+    .recipe-grid {
+      grid-template-columns: repeat(2, minmax(0, 180px)); /* Låser bredden på mobil-kort, så de ikke bliver for brede */
+    }
+  }
+
+  @media (min-width: 768px) {
+    .recipe-grid { 
+      grid-template-columns: repeat(auto-fill, 180px); /* Faste kort på computer */
+      gap: 20px;
+    }
+  }
+
+  .recipe-teaser { 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%; 
+    border-radius: 6px; 
+    overflow: hidden; 
+    text-decoration: none; 
+    color: inherit; 
+    border: 1px solid #eee; 
+    background: #fff; 
+    transition: transform 0.2s; 
+  }
+  
   .recipe-teaser:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-  .recipe-img-container { width: 100%; height: 120px; overflow: hidden; background: #f9f9f9; }
-  @media (min-width: 768px) { .recipe-img-container { height: 140px; } }
-  .recipe-img-container img { width: 100%; height: 100%; object-fit: cover; }
+
+  .recipe-img-container { 
+    width: 100%; 
+    aspect-ratio: 4 / 3; /* Bruger aspect-ratio i stedet for fast højde for at bevare proportioner */
+    overflow: hidden; 
+    background: #f9f9f9; 
+  }
+
+  .recipe-img-container img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+  }
+
   .recipe-info { padding: 8px; flex-grow: 1; text-align: center; }
   .recipe-info h3 { margin: 0; font-size: 0.85em; line-height: 1.2; color: #333; font-weight: 600; }
 </style>
