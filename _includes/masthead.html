@@ -2,9 +2,12 @@
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
-        {% unless page.url == "/" %}
-          <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-        {% endunless %}
+        {% if site.logo %}
+          <a class="site-logo" href="{{ '/' | relative_url }}"><img src="{{ site.logo | relative_url }}" alt="{{ site.title }}"></a>
+        {% endif %}
+        <a class="site-title {% if site.logo %}visually-hidden{% endif %}" href="{{ '/' | relative_url }}">
+          {{ site.title }}
+        </a>
         <ul class="visible-links">
           {% for link in site.data.navigation.main %}
             <li class="masthead__menu-item">
