@@ -4,7 +4,7 @@ header:
   overlay_image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070"
   overlay_filter: 0.5
 //  caption: "Velkommen til Det Lille Køkken"
-excerpt: "- Open Source Madviden"
+  excerpt: "- Open Source Madviden"
 
 
 ---
