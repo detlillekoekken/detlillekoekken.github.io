@@ -5,16 +5,12 @@ header:
   overlay_filter: 0.5
 //  caption: "Velkommen til Det Lille Køkken"
   excerpt: "- Open Source Madviden"
-
-
 ---
-
 <style>
   /* Skjul hele topbjælken og fjern dens fylde kun på forsiden */
   .masthead {
     display: none !important;
   }
-  
   /* Sørg for at hovedindholdet rykker helt op */
   .initial-content {
     margin-top: 0 !important;
