@@ -51,7 +51,7 @@ Herunder findes de allernyeste opskrifter.
       {% if opskrift.recipe_image %}
         <img src="{{ opskrift.recipe_image | relative_url }}" alt="{{ opskrift.title }}">
       {% else %}
-        <img src="https://via.placeholder.com/300x200?text=Ingen+billede" alt="Ingen billede">
+        <img src="/assets/images/standardmad.png" alt="Ingen billede">
       {% endif %}
       <h2>{{ opskrift.title }}</h2>
     </a>
