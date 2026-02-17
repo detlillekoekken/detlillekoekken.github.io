@@ -1,10 +1,11 @@
 ---
 layout: home
-title: "Det Lille Køkken"header:
+title: "Det Lille Køkken"
+header:
   overlay_image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070"
   overlay_filter: 0.5
   overlay_excerpt: "- Open Source Madviden"
-  ---
+---
 <style>
   /* Skjul hele topbjælken og fjern dens fylde kun på forsiden */
   .masthead {
