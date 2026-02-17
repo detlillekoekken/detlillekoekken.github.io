@@ -1,0 +1,9 @@
+main:
+  - title: "Forside"
+    url: /
+  - title: "Alle Opskrifter"
+    url: /opskrifter/
+  - title: "Udstyr"
+    url: /udstyr/
+  - title: "Om mig"
+    url: /om/
