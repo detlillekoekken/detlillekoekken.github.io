@@ -3,7 +3,7 @@ title: "Frikadeller"
 prep_time: "10 min"
 cook_time: "20 min"
 yield: "4 personer"
-recipe_image: "/assets/images/standardmad.jpg"
+recipe_image: "/assets/images/standardmad.png"
 ingredients:
   - 1 kg modne tomater
   - 2 løg
