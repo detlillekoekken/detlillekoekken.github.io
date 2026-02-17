@@ -65,13 +65,16 @@ permalink: /opskrifter/
 
 <div class="recipe-grid" id="recipe-list">
   {% for opskrift in sorterede_opskrifter %}
-    {% comment %} Vi tjekker begge stavemåder for at være sikre {% endcomment %}
-    {% assign s_grad = opskrift.sværhedsgrad | default: opskrift.svaerhedsgrad | strip | downcase %}
+    {% comment %} Vi laver listerne om til små bogstaver og adskiller dem med komma {% endcomment %}
+    {% capture kat_list %}{{ opskrift.kategori | join: ',' | downcase }}{% endcapture %}
+    {% capture met_list %}{{ opskrift.metode | join: ',' | downcase }}{% endcapture %}
+    {% capture ind_list %}{{ opskrift.indhold | join: ',' | downcase }}{% endcapture %}
+    {% assign s_grad = opskrift.svaerhedsgrad | default: opskrift.sværhedsgrad | downcase %}
     
     <div class="recipe-item" 
-         data-kategori="{{ opskrift.kategori | strip | downcase }}" 
-         data-metode="{{ opskrift.metode | strip | downcase }}" 
-         data-indhold="{{ opskrift.indhold | strip | downcase }}"
+         data-kategori="{{ kat_list }}" 
+         data-metode="{{ met_list }}" 
+         data-indhold="{{ ind_list }}"
          data-sværhedsgrad="{{ s_grad }}">
       <a href="{{ opskrift.url | relative_url }}" class="recipe-teaser">
         <div class="recipe-img-container">
@@ -83,7 +86,7 @@ permalink: /opskrifter/
         </div>
         <div class="recipe-info">
           <h3>{{ opskrift.title }}</h3>
-          <p class="recipe-tags">{{ opskrift.kategori | capitalize }} • {{ s_grad | capitalize }}</p>
+          <p class="recipe-tags">{{ opskrift.kategori | join: ' • ' }}</p>
         </div>
       </a>
     </div>
@@ -115,14 +118,16 @@ function filterRecipes() {
   let visibleCount = 0;
 
   recipes.forEach(recipe => {
-    const rKategori = recipe.getAttribute('data-kategori') || "";
-    const rMetode = recipe.getAttribute('data-metode') || "";
-    const rIndhold = recipe.getAttribute('data-indhold') || "";
+    // Vi splitter de komma-separerede lister fra data-attributterne til arrays
+    const rKategori = (recipe.getAttribute('data-kategori') || "").split(',');
+    const rMetode = (recipe.getAttribute('data-metode') || "").split(',');
+    const rIndhold = (recipe.getAttribute('data-indhold') || "").split(',');
     const rSvær = recipe.getAttribute('data-sværhedsgrad') || "";
 
-    const matchKategori = filters.kategori.length === 0 || filters.kategori.includes(rKategori);
-    const matchMetode = filters.metode.length === 0 || filters.metode.includes(rMetode);
-    const matchIndhold = filters.indhold.length === 0 || filters.indhold.includes(rIndhold);
+    // Tjekker om der er et overlap mellem valgte filtre og opskriftens tags
+    const matchKategori = filters.kategori.length === 0 || filters.kategori.some(f => rKategori.includes(f));
+    const matchMetode = filters.metode.length === 0 || filters.metode.some(f => rMetode.includes(f));
+    const matchIndhold = filters.indhold.length === 0 || filters.indhold.some(f => rIndhold.includes(f));
     const matchSvær = filters.sværhedsgrad.length === 0 || filters.sværhedsgrad.includes(rSvær);
 
     if (matchKategori && matchMetode && matchIndhold && matchSvær) {
@@ -152,13 +157,11 @@ function resetFilters() {
 
   .filter-pill { 
     background: #f5f5f5; border: 1px solid #eee; padding: 4px 10px; border-radius: 15px; 
-    font-size: 0.8em; cursor: pointer; transition: background 0.2s, color 0.2s; color: #555;
-    white-space: nowrap;
+    font-size: 0.8em; cursor: pointer; transition: background 0.2s; color: #555;
   }
   .filter-pill.active { background: #222; color: #fff; border-color: #222; }
-  
   .reset-link { background: none; border: none; color: #d9534f; text-decoration: underline; cursor: pointer; margin-top: 20px; display: block; font-size: 0.85em; }
-  
+
   .recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
   .recipe-teaser { display: flex; flex-direction: column; height: 100%; border-radius: 10px; overflow: hidden; text-decoration: none; color: inherit; border: 1px solid #eee; transition: box-shadow 0.3s; }
   .recipe-teaser:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
