@@ -4,38 +4,54 @@ title: "Find en opskrift"
 permalink: /opskrifter/
 ---
 
-<button class="btn btn--info" onclick="toggleFilter()" style="margin-bottom: 20px;">
-  <i class="fas fa-filter"></i> Filtrér opskrifter
+<button class="filter-toggle-btn" onclick="toggleFilter()">
+  <i class="fas fa-sliders-h"></i> Filtrér udvalg
 </button>
 
-<div id="filter-container" style="display: none; background: #f4f4f4; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-  <div class="filter-grid">
+<div id="filter-container" class="filter-box">
+  <div class="filter-group-wrapper">
     
-    <div class="filter-col">
+    <div class="filter-group">
       <h4>Kategori</h4>
-      <label><input type="checkbox" class="filter-check" data-type="kategori" value="Forret"> Forret</label><br>
-      <label><input type="checkbox" class="filter-check" data-type="kategori" value="Hovedret"> Hovedret</label><br>
-      <label><input type="checkbox" class="filter-check" data-type="kategori" value="Dessert"> Dessert</label><br>
-      <label><input type="checkbox" class="filter-check" data-type="kategori" value="Suppe"> Suppe</label>
+      <div class="filter-options">
+        <span class="filter-pill" data-type="kategori" onclick="togglePill(this)">Forret</span>
+        <span class="filter-pill" data-type="kategori" onclick="togglePill(this)">Hovedret</span>
+        <span class="filter-pill" data-type="kategori" onclick="togglePill(this)">Dessert</span>
+        <span class="filter-pill" data-type="kategori" onclick="togglePill(this)">Suppe</span>
+        <span class="filter-pill" data-type="kategori" onclick="togglePill(this)">Snack</span>
+      </div>
     </div>
 
-    <div class="filter-col">
+    <div class="filter-group">
       <h4>Metode</h4>
-      <label><input type="checkbox" class="filter-check" data-type="metode" value="Sous Vide"> Sous Vide</label><br>
-      <label><input type="checkbox" class="filter-check" data-type="metode" value="Grill"> Grill</label><br>
-      <label><input type="checkbox" class="filter-check" data-type="metode" value="Trykkoger"> Trykkoger</label>
+      <div class="filter-options">
+        <span class="filter-pill" data-type="metode" onclick="togglePill(this)">Sous Vide</span>
+        <span class="filter-pill" data-type="metode" onclick="togglePill(this)">Grill</span>
+        <span class="filter-pill" data-type="metode" onclick="togglePill(this)">Røgning</span>
+        <span class="filter-pill" data-type="metode" onclick="togglePill(this)">Trykkoger</span>
+      </div>
     </div>
 
-    <div class="filter-col">
+    <div class="filter-group">
       <h4>Indhold</h4>
-      <label><input type="checkbox" class="filter-check" data-type="indhold" value="Svinekød"> Svinekød</label><br>
-      <label><input type="checkbox" class="filter-check" data-type="indhold" value="Oksekød"> Oksekød</label><br>
-      <label><input type="checkbox" class="filter-check" data-type="indhold" value="Vegansk"> Vegansk</label>
+      <div class="filter-options">
+        <span class="filter-pill" data-type="indhold" onclick="togglePill(this)">Svinekød</span>
+        <span class="filter-pill" data-type="indhold" onclick="togglePill(this)">Oksekød</span>
+        <span class="filter-pill" data-type="indhold" onclick="togglePill(this)">Vegansk</span>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <h4>Sværhedsgrad</h4>
+      <div class="filter-options">
+        <span class="filter-pill" data-type="sværhedsgrad" onclick="togglePill(this)">Nem</span>
+        <span class="filter-pill" data-type="sværhedsgrad" onclick="togglePill(this)">Middel</span>
+        <span class="filter-pill" data-type="sværhedsgrad" onclick="togglePill(this)">Svær</span>
+      </div>
     </div>
 
   </div>
-  <br>
-  <button class="btn btn--small" onclick="resetFilters()">Nulstil alle</button>
+  <button class="reset-link" onclick="resetFilters()">Nulstil alle filtre</button>
 </div>
 
 <hr>
@@ -47,7 +63,8 @@ permalink: /opskrifter/
     <div class="recipe-item" 
          data-kategori="{{ opskrift.kategori }}" 
          data-metode="{{ opskrift.metode }}" 
-         data-indhold="{{ opskrift.indhold }}">
+         data-indhold="{{ opskrift.indhold }}"
+         data-sværhedsgrad="{{ opskrift.sværhedsgrad }}">
       <a href="{{ opskrift.url | relative_url }}" class="recipe-teaser">
         {% if opskrift.recipe_image %}
           <img src="{{ opskrift.recipe_image | relative_url }}" alt="{{ opskrift.title }}">
@@ -56,7 +73,7 @@ permalink: /opskrifter/
         {% endif %}
         <div class="recipe-info">
           <h3>{{ opskrift.title }}</h3>
-          <p class="recipe-tags">{{ opskrift.kategori }} • {{ opskrift.indhold }}</p>
+          <p class="recipe-tags">{{ opskrift.kategori }} • {{ opskrift.metode }}</p>
         </div>
       </a>
     </div>
@@ -66,39 +83,50 @@ permalink: /opskrifter/
 <p id="no-results" style="display:none; text-align: center; margin-top: 50px;">Ingen opskrifter matcher de valgte filtre.</p>
 
 <script>
-// Vis/skjul filter-boksen
 function toggleFilter() {
   const container = document.getElementById('filter-container');
-  container.style.display = container.style.display === 'none' ? 'block' : 'none';
+  container.classList.toggle('active');
 }
 
-// Lyt efter ændringer på alle tjekbokse
-document.querySelectorAll('.filter-check').forEach(box => {
-  box.addEventListener('change', filterRecipes);
-});
+function togglePill(element) {
+  element.classList.toggle('active');
+  filterRecipes();
+}
 
 function filterRecipes() {
-  // Hent alle valgte værdier fordelt på typer
-  const activeFilters = {
-    kategori: Array.from(document.querySelectorAll('.filter-check[data-type="kategori"]:checked')).map(cb => cb.value),
-    metode: Array.from(document.querySelectorAll('.filter-check[data-type="metode"]:checked')).map(cb => cb.value),
-    indhold: Array.from(document.querySelectorAll('.filter-check[data-type="indhold"]:checked')).map(cb => cb.value)
+  const activePills = document.querySelectorAll('.filter-pill.active');
+  
+  // Organiser valgte filtre i grupper
+  const filters = {
+    kategori: [],
+    metode: [],
+    indhold: [],
+    sværhedsgrad: []
   };
+
+  activePills.forEach(pill => {
+    filters[pill.dataset.type].push(pill.textContent.trim());
+  });
 
   const recipes = document.querySelectorAll('.recipe-item');
   let visibleCount = 0;
 
   recipes.forEach(recipe => {
-    const rKategori = recipe.getAttribute('data-kategori');
-    const rMetode = recipe.getAttribute('data-metode');
-    const rIndhold = recipe.getAttribute('data-indhold');
+    const rData = {
+      kategori: recipe.getAttribute('data-kategori'),
+      metode: recipe.getAttribute('data-metode'),
+      indhold: recipe.getAttribute('data-indhold'),
+      sværhedsgrad: recipe.getAttribute('data-sværhedsgrad')
+    };
 
-    // Tjek om opskriften passer i HVER kategori (hvis der er valgt noget i den kategori)
-    const matchKategori = activeFilters.kategori.length === 0 || activeFilters.kategori.includes(rKategori);
-    const matchMetode = activeFilters.metode.length === 0 || activeFilters.metode.includes(rMetode);
-    const matchIndhold = activeFilters.indhold.length === 0 || activeFilters.indhold.includes(rIndhold);
+    // Logik: Hvis en gruppe er tom, er den altid "true". 
+    // Hvis der er valgt noget, skal opskriften matche mindst én af de valgte i gruppen.
+    const matchKategori = filters.kategori.length === 0 || filters.kategori.includes(rData.kategori);
+    const matchMetode = filters.metode.length === 0 || filters.metode.includes(rData.metode);
+    const matchIndhold = filters.indhold.length === 0 || filters.indhold.includes(rData.indhold);
+    const matchSvær = filters.sværhedsgrad.length === 0 || filters.sværhedsgrad.includes(rData.sværhedsgrad);
 
-    if (matchKategori && matchMetode && matchIndhold) {
+    if (matchKategori && matchMetode && matchIndhold && matchSvær) {
       recipe.style.display = 'block';
       visibleCount++;
     } else {
@@ -110,20 +138,89 @@ function filterRecipes() {
 }
 
 function resetFilters() {
-  document.querySelectorAll('.filter-check').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.filter-pill').forEach(pill => pill.classList.remove('active'));
   filterRecipes();
 }
 </script>
 
 <style>
-  .filter-grid { display: flex; flex-wrap: wrap; gap: 40px; }
-  .filter-col h4 { margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #ccc; }
-  .filter-col label { cursor: pointer; display: inline-block; padding: 2px 0; }
+  /* Filter UI */
+  .filter-toggle-btn {
+    background: #333;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-bottom: 20px;
+  }
+  .filter-box {
+    display: none;
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    margin-bottom: 30px;
+  }
+  .filter-box.active { display: block; }
   
-  .recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-  .recipe-teaser { display: block; border: 1px solid #eee; border-radius: 8px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s; height: 100%; }
+  .filter-group-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 30px;
+  }
+  .filter-group h4 {
+    margin: 0 0 15px 0;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #666;
+  }
+  .filter-options { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* Pill Buttons */
+  .filter-pill {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .filter-pill:hover { border-color: #999; }
+  .filter-pill.active {
+    background: #333;
+    color: white;
+    border-color: #333;
+  }
+
+  .reset-link {
+    background: none;
+    border: none;
+    color: #c0392b;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 20px;
+    padding: 0;
+  }
+
+  /* Grid layout */
+  .recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
+  .recipe-teaser {
+    display: block;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+  }
+  .recipe-teaser:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
   .recipe-teaser img { width: 100%; height: 180px; object-fit: cover; }
   .recipe-info { padding: 15px; }
-  .recipe-info h3 { margin: 0; font-size: 1.1em; color: #333; }
-  .recipe-tags { font-size: 0.85em; color: #777; margin-top: 5px; }
+  .recipe-info h3 { margin: 0; font-size: 1.1em; }
+  .recipe-tags { font-size: 0.8em; color: #888; margin-top: 5px; }
 </style>
