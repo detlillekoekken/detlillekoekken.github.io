@@ -1,11 +1,10 @@
 ---
 layout: home
-title: detlillekøkken.dk
 header:
   overlay_image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070"
   overlay_filter: 0.5
 # caption: "Velkommen til Det Lille Køkken"
-  excerpt: "- Open Source Madviden"
+  tagline: "- Open Source Madviden"
 ---
 <style>
   /* Skjul hele topbjælken og fjern dens fylde kun på forsiden */
@@ -43,9 +42,7 @@ header:
   }
 </style>
 
-## Nyeste opskrifter
-Herunder findes de allernyeste opskrifter.
-
+## Seneste opskrifter
 <div class="recipe-grid">
   {% for opskrift in site.opskrifter limit: 6 %}
     <a href="{{ opskrift.url | relative_url }}" class="recipe-teaser">
